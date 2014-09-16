@@ -13,6 +13,7 @@ The objective of the study was to look at a data set of a collection of cars and
 While initial analysis shows that manual transmissions were better for MPG, but regression analysis shows that MPG mostily depends on weight and horsepower. Transmission was not major factor in determining MPG. 
 
 ### Exploratory Analysis
+The data used for this analysis was obtained from the 1974 Motor Trend US magazine. The data set contained 11 variables (including MPG) describing various aspects of automobile design and performance for 32 automobiles (1973-74 models). See Table 1 in the Appendix for a description of each variable in the data set.
 
 ### Statistical Modeling
 
@@ -21,3 +22,8 @@ While initial analysis shows that manual transmissions were better for MPG, but 
 ### Conclusions 
 
 ### Appendix
+library(xtable)
+name <- names(mtcars)
+description <- c("Miles/(US) gallon", "Number of cylinders", "Displacement (cu.in.", "Gross horsepower", "Rear axle ratio", "Weight (lb/1000)", "1/4 mile time", "V/S", "Transmission (0 = automatic, 1 = manual)", "Number of forward gears", "Number of carburetors")
+dataset <- cbind(name, description)
+print(xtable(dataset, caption = "Motor Trend Data, 1974"), comment = FALSE, type = 'latex')
