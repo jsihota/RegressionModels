@@ -1,0 +1,17 @@
+---
+title: "Relationship between a set of variables and miles per gallon (MPG)"
+author: "Jagdeep S. Sihota"
+
+---
+
+## Executive Summary
+
+## Exploratory Analysis
+
+## Statistical Modeling
+
+## Diagnositc Plots
+
+## Conclusions 
+
+## Appendix
