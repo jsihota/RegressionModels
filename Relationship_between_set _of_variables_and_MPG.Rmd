@@ -48,8 +48,36 @@ After adding quadratic terms for weight and horsepower, we see that the new coef
 By looking at several possible models, we see a relationship does exist between fuel efficiency and transmission type, but that could also be explained by other factors such as vehicle weight and horsepower.
 
 ### Appendix
+```{r}
 library(xtable)
+library(car)
 name <- names(mtcars)
 description <- c("Miles/(US) gallon", "Number of cylinders", "Displacement (cu.in.", "Gross horsepower", "Rear axle ratio", "Weight (lb/1000)", "1/4 mile time", "V/S", "Transmission (0 = automatic, 1 = manual)", "Number of forward gears", "Number of carburetors")
 dataset <- cbind(name, description)
 print(xtable(dataset, caption = "Motor Trend Data, 1974"), comment = FALSE, type = 'latex')
+correlations <- cor(mtcars)
+print(xtable(correlations, caption = "Correlation Matrix"), comment = FALSE, type = 'latex')
+pairs(mtcars, main = "Figure 1: Scatter Plot Matrix")
+boxplot(mpg ~ am, data = mtcars, names = c("Automatic", "Manual"), main = "Figure 2: MPG by Transmission Type", ylab = "Miles per Gallon (MPG)", xlab = "Transmission")
+data <- mtcars
+data$am <- ifelse(data$am == 0, "Automatic", "Manual")
+fit1 <- lm(mpg ~ am, data)
+print(xtable(summary(fit1), caption = "Model 1 Summary"), comment = FALSE, type = 'latex')
+fit2 <- lm(mpg ~ am + cyl + disp + hp + drat + wt +vs, data)
+print(xtable(summary(fit2), caption = "Model 2 Summary"), comment = FALSE, type = 'latex')
+
+x <- vif(fit2)
+variables <- names(x)
+vif <- c("3.60", "12.02", "10.57", "4.76", "3.06", "6.12", "4.07")
+vifmod2 <- cbind(variables, vif)
+print(xtable(vifmod2, caption = "VIF Values"), comment = FALSE, type = 'latex')
+fit3 <- lm(mpg ~ am + hp + drat + wt +vs, data)
+print(xtable(summary(fit3), caption = "Model 3 Summary"), comment = FALSE, type = 'latex')
+boxplot(wt~am, data=data, main = "Figure 3: Weight by Transmission Type", ylab = "Weight (lb/1000)", xlab = "Transmission")
+fit4  <-  lm(mpg ~ wt + hp, data = mtcars)
+print(xtable(summary(fit4), caption = "Model 4 Summary"), comment = FALSE, type = 'latex')
+plot(fit4, 1, main = "Figure 4: Diagnostic Plot Model 4")
+fit5  <-  lm(mpg ~ wt + hp + I(hp^2) + I(wt^2), data)
+print(xtable(summary(fit5), caption = "Model 5 Summary"), comment = FALSE, type = 'latex')
+plot(fit5, 1, main = "Figure 5: Diagnostic Plot Model 5")
+```
