@@ -1,7 +1,7 @@
 ---
 title: "Relationship between a set of variables and miles per gallon (MPG)"
 author: "Jagdeep S. Sihota"
-
+output: pdf_document
 ---
 
 ### Executive Summary
@@ -17,7 +17,8 @@ While initial analysis shows that manual transmissions were better for MPG, but 
 The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models). A data frame with 32 observations on 11 variables (See Table 1.1 in the Appendix for more details).
 
 #### Analysis
-First scatter plot was created to see relationship between all of the vaariables to each other, see Figure 1.1. Which showed there is releationship between variables and MPG and to narrow down analysis box plot is created with only subset of data focusing on transmision types. See Figure 1.2. The box plot clearly showed that there was a difference in MPG depending on transmission type. Automobiles with a manual transmission had a higher MPG than those with an automatic.
+Figure 1.1 shows relationship amoung all the variables, but narrow down data box plot is created figure 1.2
+The box plot clearly showed that there was a difference in MPG depending on transmission type. Automobiles with a manual transmission had a higher MPG than those with an automatic.
 
 A correlation test of association was conducted to explore this relatinship further, see Table 1.2. The results showed that MPG was most highly correlated with weight (-0.87), the number of cylinders (-0.85), displacement (-0.85), and horsepower (-0.78), although these were all negative correlations, meaning they had a negative impact on MPG levels. The results also showed that MPG was positively correlated with transmission (0.60), meaning a manual transmission was correlated with higher levels of MPG
 
