@@ -1,6 +1,7 @@
 ---
 title: "Miles per gallon Analysis of Motor Trend Data"
 author: "Jagdeep S. Sihota"
+output: pdf_document
 ---
 
 ### Executive Summary
@@ -9,12 +10,7 @@ The objective of the study was to look at a data set of a collection of cars and
 * Is an automatic or manual transmission better for MPG?
 * Quantify the MPG difference between automatic and manual transmissions
 
-While initial analysis shows that manual transmissions were better for MPG, but regression analysis showed MPG mostly depends on weight and horsepower and transmission was not major factor in determining MPG. The analysis led to the following conclusions and questions.
-
-* Manual transmissions have better MPG than Automatic transmission. However, the ability to predict the MPG of a vehicle based on its transmission type is severly limited and not the most accurate predictive variable.
-
-* Manual transmissions have an approximately 4-7 MPG advantage over automatic transmissions. Again however, the ability to predict a vehicles MPG based on trasmission type is severly limited. More useful predictive variables are weight, and horsepower.
-
+While initial analysis shows that manual transmissions were better for MPG, but regression analysis showed MPG mostly depends on weight and horsepower and transmission was not major factor in determining MPG. Based on this analysis, we can't quantify the MPG difference between automatic and manual transmissions becasue more useful  variables are weight, and horsepower.
 
 ### Exploratory Analysis
 #### Data
@@ -56,7 +52,8 @@ description <- c("Miles/(US) gallon", "Number of cylinders", "Displacement (cu.i
 dataset <- cbind(name, description)
 print(xtable(dataset, caption = "Motor Trend Data, 1974"), comment = FALSE, type = 'latex')
 correlations <- cor(mtcars)
-print(xtable(correlations, caption = "Correlation Matrix"), comment = FALSE, type = 'latex')
+xtable(correlations, caption = "Correlation Matrix")
+
 pairs(mtcars, main = "Figure 1: Scatter Plot Matrix")
 boxplot(mpg ~ am, data = mtcars, names = c("Automatic", "Manual"), main = "Figure 2: MPG by Transmission Type", ylab = "Miles per Gallon (MPG)", xlab = "Transmission")
 data <- mtcars
