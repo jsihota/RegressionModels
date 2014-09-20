@@ -5,7 +5,7 @@ output: pdf_document
 ---
 
 ### Executive Summary
-The objective of the study was to look at a data set of a collection of cars and exploring the relationship between a set of variables and miles per gallon (MPG). We were particularly interested in the following two questions:
+The objective of the study was to look at a data set of a collection of cars and exploring the relationship between a set of variables and miles per gallon (MPG). The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models). Data contains 32 observations on 11 variables (See Table 1.1 in the Appendix for more details), and can be found at http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html We were particularly interested in the following two questions:
 
 * Is an automatic or manual transmission better for MPG?
 * Quantify the MPG difference between automatic and manual transmissions
@@ -13,10 +13,7 @@ The objective of the study was to look at a data set of a collection of cars and
 While initial analysis shows that manual transmissions were better for MPG, but regression analysis showed MPG mostly depends on weight and horsepower and transmission was not major factor in determining MPG. Based on this analysis, we can't quantify the MPG difference between automatic and manual transmissions becasue more useful  variables are weight, and horsepower.
 
 ### Exploratory Analysis
-#### Data
-The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models). Data contains 32 observations on 11 variables (See Table 1.1 in the Appendix for more details), and can be found at http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 
-#### Analysis
 To begin to understand the relationship between the variables in the data set and MPG a scatter plot matrix was created to compare all of the variables (Figure 1.1). To explore the relationship between MPG and transmission type, a box plot was created (Figure 1.2). The box plot showed Automobiles with a manual transmission had a higher MPG than those with an automatic.
 
 But there are 10 predictor variables in the data set, so an analysis of variance model is performed, see Table 1.2. The results showed that MPG was most highly correlated with weight (-0.87), the number of cylinders (-0.85), displacement (-0.85), and horsepower (-0.78).
@@ -27,12 +24,12 @@ To address the main research question of the relationship between MPG and transm
 The multiple R-squared value is only 0.35, which indicates that only 35% of the variance in MPG is explained by the type of transmission, leaving 65% of the variance unexplained. We looked at additional variables: weight, and number of cylinders. 
 We can see that these are also very influential, and should be included in the model Table 2.2.
 
-Finally, we created a Model with two statistically significant predictor variables, weight and horsepower Table 3.3. The coefficient for weight is -3.88, meaning that on average and with horsepower being held constant, a one unit increase in weight (1000 lbs) equates to a -3.88 lower MPG. This coefficient is statistically significant with a p<0.05 and the 95% confidence intervals are (-5.17, -2.58). The coefficient for horsepower is also negative at -0.03, which indicates that on average and holding weight constant, a one unit increase in gross horsepower will result in a .03 loss in MPG. This estimate is statistically significant (p<0.05) with 95% confidence intervals of (-0.05, -0.01). The R-squared value of this model is 0.83, which means that 83% of the variance in MPG is explained by the weight and horsepower of the automobile.
+Finally, we created a Model with two statistically significant predictor variables, weight and horsepower Table 2.3. The coefficient for weight is -3.88, meaning that on average and with horsepower being held constant, a one unit increase in weight (1000 lbs) equates to a -3.88 lower MPG. This coefficient is statistically significant with a p<0.05 and the 95% confidence intervals are (-5.17, -2.58). The coefficient for horsepower is also negative at -0.03, which indicates that on average and holding weight constant, a one unit increase in gross horsepower will result in a .03 loss in MPG. This estimate is statistically significant (p<0.05) with 95% confidence intervals of (-0.05, -0.01). The R-squared value of this model is 0.83, which means that 83% of the variance in MPG is explained by the weight and horsepower of the automobile.
 
 ### Diagnostic Plots
-To verify the conditions of validity of our final model we can look at some diagnostic plots of the residuals. The plot of Residuals vs. Fitted values is slightly U-shaped which shows that there may be some non-linearity in the relationship between MPG and one of the variables in the model, suggesting that adding a quadratic term may improve the fit of the data, see Figure 4.
+To verify the conditions of validity of our final model we can look at some diagnostic plots of the residuals. The plot of Residuals vs. Fitted values is slightly U-shaped which shows that there may be some non-linearity in the relationship between MPG and one of the variables in the model, suggesting that adding a quadratic term may improve the fit of the data, see Figure 3.1.
 
-After adding quadratic terms for weight and horsepower, we see that the new coefficients are both statistically significant (p < 0.05) and the R-squared value (0.89) was the highest among all models, see Table 8. Furthermore, if we look at the diagnostic plot for Residuals vs. Fitted values for this new model, we see that there is no longer a discernible pattern in the variance of the residuals in relation to the fitted values, see Figure 5.
+After adding quadratic terms for weight and horsepower, we see that the new coefficients are both statistically significant (p < 0.05) and the R-squared value (0.89) was the highest among all models, see Table 8. Furthermore, if we look at the diagnostic plot for Residuals vs. Fitted values for this new model, we see that there is no longer a discernible pattern in the variance of the residuals in relation to the fitted values, see Figure 3.2.
 
 ### Conclusions 
 By looking at several possible models, we see a relationship does exist between fuel efficiency and transmission type, but that could also be explained by other factors such as vehicle weight and horsepower.
@@ -89,15 +86,16 @@ fit2 <- lm(mpg ~ am + cyl + disp + hp + drat + wt +vs, data)
 summary(fit2) 
 ```
 
-#### Table 2.4
+#### Table 3.1
 #### Final Model  Summary
 ```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
 finalFit  <-  lm(mpg ~ wt + hp + I(hp^2) + I(wt^2), data)
 summary(finalFit)
 
-plot(finalFit, 1, main = "Figure 2.1: Diagnostic Plot Model 5")
+plot(finalFit, 1, main = "Figure 3.1: Diagnostic Plot Model 5")
 par(mfcol = c(1,2))
-plot(resid(finalFit) ~ predict(finalFit))
+
+plot(resid(finalFit) ~ predict(finalFit), main = "Figure 3.2")
 qqnorm(rstudent(finalFit))
 qqline(rstudent(finalFit))
 ```
