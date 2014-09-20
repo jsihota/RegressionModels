@@ -25,15 +25,9 @@ But there are 10 predictor variables in the data set, so an analysis of variance
 To address the main research question of the relationship between MPG and transmission type, we used simple least squares regression, with MPG as the outcome variable (Y) and transmission as the predictor (X). Table 2.1 shows the results of this regression analysis. The coefficient estimate for manual transmission is 7.24, which tells us that automobiles with a manual transmission get about 7.24 more gallons per mile than those with an automatic transmission. This finding is statistically significant as p < 0.05 and the 95% confidence intervals for the estimate were (3.64, 10.85).
 
 The multiple R-squared value is only 0.35, which indicates that only 35% of the variance in MPG is explained by the type of transmission, leaving 65% of the variance unexplained. We looked at additional variables: weight, and number of cylinders. 
-odel2 <- update(model1, mpg ~ am + wt)
-model3 <- update(model1, mpg ~ am + wt + cyl)
-anova(model1, model2, model3)
-We can see that these are also very influential, and should be included in the model.
+We can see that these are also very influential, and should be included in the model Table 2.2.
 
-summary(model2)$coefficients
-
-
-Finally, we created a Model with two statistically significant predictor variables, weight and horsepower. The coefficient for weight is -3.88, meaning that on average and with horsepower being held constant, a one unit increase in weight (1000 lbs) equates to a -3.88 lower MPG. This coefficient is statistically significant with a p<0.05 and the 95% confidence intervals are (-5.17, -2.58). The coefficient for horsepower is also negative at -0.03, which indicates that on average and holding weight constant, a one unit increase in gross horsepower will result in a .03 loss in MPG. This estimate is statistically significant (p<0.05) with 95% confidence intervals of (-0.05, -0.01). The R-squared value of this model is 0.83, which means that 83% of the variance in MPG is explained by the weight and horsepower of the automobile.
+Finally, we created a Model with two statistically significant predictor variables, weight and horsepower Table 3.3. The coefficient for weight is -3.88, meaning that on average and with horsepower being held constant, a one unit increase in weight (1000 lbs) equates to a -3.88 lower MPG. This coefficient is statistically significant with a p<0.05 and the 95% confidence intervals are (-5.17, -2.58). The coefficient for horsepower is also negative at -0.03, which indicates that on average and holding weight constant, a one unit increase in gross horsepower will result in a .03 loss in MPG. This estimate is statistically significant (p<0.05) with 95% confidence intervals of (-0.05, -0.01). The R-squared value of this model is 0.83, which means that 83% of the variance in MPG is explained by the weight and horsepower of the automobile.
 
 ### Diagnostic Plots
 To verify the conditions of validity of our final model we can look at some diagnostic plots of the residuals. The plot of Residuals vs. Fitted values is slightly U-shaped which shows that there may be some non-linearity in the relationship between MPG and one of the variables in the model, suggesting that adding a quadratic term may improve the fit of the data, see Figure 4.
@@ -60,8 +54,46 @@ pairs(data, main = "Figure 1.1: Scatter Plot Matrix")
 
 
 ```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
-
 boxplot(mpg ~ am, data = mtcars, names = c("Automatic", "Manual"), main = "Figure 1.2: MPG by Transmission Type", ylab = "Miles per Gallon (MPG)", xlab = "Transmission")
+```
+
+#### Table 1.2
+### Correlation Matrix
+```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
+correlations <- round(cor(data, use="pairwise.complete.obs"), 3)
+knitr::kable(correlations)
+```
+
+#### Table 2.1
+#### Model 1 Summary
+```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
+data$am <- ifelse(data$am == 0, "Automatic", "Manual")
+fit1 <- lm(mpg ~ am, data)
+summary(fit1)
 
 ```
-#### Table 1.2
+
+#### Table 2.2
+#### Model 2 Summary
+```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
+model2 <- update(fit1, mpg ~ am + wt)
+model3 <- update(fit1, mpg ~ am + wt + cyl)
+anova(fit1, model2, model3)
+
+```
+
+#### Table 2.3
+#### Model 2 Summary
+```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
+fit2 <- lm(mpg ~ am + cyl + disp + hp + drat + wt +vs, data)
+summary(fit2) 
+```
+
+#### Table 2.4
+#### Final Model  Summary
+```{r  tidy=FALSE, comment=NA, echo=FALSE, message=FALSE, warning=FALSE}
+finalFit  <-  lm(mpg ~ wt + hp + I(hp^2) + I(wt^2), data)
+summary(finalFit)
+
+#plot(finalFit, 1, main = "Figure 2.1: Diagnostic Plot Model 5")
+```
