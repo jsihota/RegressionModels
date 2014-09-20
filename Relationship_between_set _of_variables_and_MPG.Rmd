@@ -95,5 +95,9 @@ summary(fit2)
 finalFit  <-  lm(mpg ~ wt + hp + I(hp^2) + I(wt^2), data)
 summary(finalFit)
 
-#plot(finalFit, 1, main = "Figure 2.1: Diagnostic Plot Model 5")
+plot(finalFit, 1, main = "Figure 2.1: Diagnostic Plot Model 5")
+par(mfcol = c(1,2))
+plot(resid(finalFit) ~ predict(finalFit))
+qqnorm(rstudent(finalFit))
+qqline(rstudent(finalFit))
 ```
